@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="script.js"></script>
+    <title>Sleeping Barber</title>
+  </head>
+
+  
+
+  <body>
+
+
+
+    <div
+      class="p-4 w-11/12 xl:w-5/12 md:w-9/12 grid grid-cols-1 gap-4 mx-auto"
+      id="simulation"
+    >
+      <div class="flex flex-col justify-center items-center">
+        <h1 class="text-3xl font-bold text-center mb-4">Sleeping Barber</h1>
+      </div>
+      <div class="bg-blue-100 p-4 rounded-lg shadow-lg">
+        <div class="flex flex-col">
+          <label
+            class="text-gray-700 text-sm font-bold mb-2"
+            for="customerCount"
+            >Customer Count</label
+          >
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="customerCount"
+            type="text"
+            placeholder="e.g. customer1 customer2 customer3"
+          />
+        </div>
+        <div class="flex flex-col mt-4">
+          <label class="text-gray-700 text-sm font-bold mb-2" for="chairCount"
+            >Chair Count</label
+          >
+          <input
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="chairCount"
+            type="number"
+            placeholder="e.g. 2"
+          />
+          <p id="chEr" class="text-red-600 mt-2 text-xs italic hidden">
+            chair must be greater than 0
+          </p>
+        </div>
+        <div class="flex flex-col mt-4">
+          <button
+            id="startButton"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onclick="start()"
+          >
+            Start
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="p-4 w-9/12 grid grid-cols-1 gap-4 mx-auto">
+      <div class="flex flex-col justify-end items-center" >
+        <h1 class="text-xl font-bold text-center mb-4">Simulation Output</h1>
+      </div>
+      <div
+        class="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 bg-blue-100 p-4 rounded-lg"
+      >
+        <div class="bg-white p-4 rounded-lg shadow-lg">
+          <h2 class="text-xl font-bold text-center">Customer Leaving Shop</h2>
+          <div id="leaveWaitingRoom" class="grid grid-cols-1 gap-4 mt-4"></div>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-lg">
+          <h2 class="text-xl font-bold text-center">Customer Waiting Room</h2>
+          <div id="waitingRoom" class="grid grid-cols-1 gap-4 mt-4"></div>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-lg">
+          <h2 class="text-xl font-bold text-center">Haircut Room</h2>
+          <div id="cuttingRoom" class="grid grid-cols-1 gap-4 mt-4"></div>
+        </div>
+        <div
+          id="cuttingLeaving"
+          class="bg-white p-4 rounded-lg shadow-lg hidden"
+        >
+          <h2 class="text-xl font-bold text-center">
+            Customer Leaving After Cut
+          </h2>
+          <div
+            id="cuttingLeavingRoom"
+            class="grid grid-cols-1 gap-4 mt-4"
+          ></div>
+        </div>
+        <div id="baberSl" class="bg-white p-4 rounded-lg shadow-lg hidden">
+          <h2 class="text-xl font-bold text-center">Barber Sleeping</h2>
+          <div id="barberSleeping" class="mt-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer
+      id="checkAuthor"
+      class="text-center text-sm p-4 bottom-0 border-t border-gray-200 w-full"
+    >
+  
+    </footer>
+  </body>
+</html>
