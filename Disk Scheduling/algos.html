@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Disk Scheduling Algorithms</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+</style>
+<body>
+  <!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-dark-grey w3-left-align w3-large">
+      <a href="start_page.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black" style="width:33%;font-size: 20px;">Home</a>
+      <a href="graphical-demonstration.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-black" style="width:33%;font-size: 20px;">Graphical Demonstration</a>
+      <a href="algos.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-black" style="width:33%;font-size: 20px;">Algorithms</a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="w3-container w3-blue w3-center" style="padding:80px 16px">
+    <h3 class="w3-margin w3-jumbo">Disk Scheduling Algorithms</h3>
+  </header>
+
+  <!-- First Grid -->
+  <div class="w3-row-padding w3-padding-32 w3-light-grey w3-container">
+    <div class="w3-content">
+        <h1>FCFS Disk Scheduling Algorithms</h1>
+        <h5 class="w3-padding-8">
+          <b>
+            FCFS stands for First Come First Serve.
+          </b>
+          
+          It is the simplest Disk Scheduling algorithm. As the name suggests, this algorithm entertains requests in the order they arrive in the disk queue. 
+          <p>
+          <b>
+            Advantages-
+          </b>
+          
+          
+          It is simple and easy to understand.  The algorithm looks very fair and there is no starvation (all requests are serviced sequentially) but generally, it does not provide the fastest service.
+          </p>
+          
+          <b>
+            Disadvantages-
+          </b>
+          The scheme does not optimize the seek time.
+          The request may come from different processes therefore there is the possibility of inappropriate movement of the head.
+        </h5>
+      </div>
+  </div>
+
+  <div class="w3-row-padding w3-padding-16  w3-container">
+    <div class="w3-content">
+        <h1>SSTF Disk Scheduling Algorithm</h1>
+        <h5 class="w3-padding-8">
+          <b>
+            SSTF stands for Shortest Seek Time First.
+          </b>
+          
+          This algorithm services that request next which requires least number of head movements from its current position regardless of the direction.
+          It breaks the tie in the direction of head movement.
+          <p>
+          <b>
+            Advantages-
+          </b>
+          
+          
+          It reduces the total seek time as compared to FCFS.
+          
+          It provides increased throughput.
+          
+          It provides less average response time and waiting time.
+          </p>
+          
+          <b>
+            Disadvantages-
+          </b>
+          There is an overhead of finding out the closest request.
+          The requests which are far from the head might starve for the CPU.
+          It provides high variance in response time and waiting time.
+          Switching the direction of head frequently slows down the algorithm.
+        
+        </h5>
+      </div>
+  </div>
+
+  <div class="w3-row-padding w3-padding-16 w3-light-grey w3-container">
+    <div class="w3-content">
+      <h1>SCAN Disk Scheduling Algorithm</h1>
+      <h5 class="w3-padding-8">
+        <b>
+          SCAN Disk Scheduling Algorithm-
+        </b>
+        As the name suggests, this algorithm scans all the cylinders of the disk back and forth.
+        Head starts from one end of the disk and move towards the other end servicing all the requests in between.
+        After reaching the other end, head reverses its direction and move towards the starting end servicing all the requests in between.
+        The same process repeats.
+
+        <p>
+          <b>
+            NOTES-
+          </b>
+        SCAN Algorithm is also called as Elevator Algorithm.
+        This is because its working resembles the working of an elevator.
+        </p>
+        
+        <p>
+          <b>
+            Advantages-
+          </b>
+        It is simple, easy to understand and implement.
+        It does not lead to starvation.
+        It provides low variance in response time and waiting time.
+        </p>
+
+        <p>
+          <b>
+            Disadvantages-
+          </b>
+        It causes long waiting time for the cylinders just visited by the head.
+        It causes the head to move till the end of the disk even if there are no requests to be serviced.
+        </p>
+      </h5>
+    </div>
+  </div>
+
+  <div class="w3-row-padding w3-padding-16 w3-container">
+    <div class="w3-content">
+      <h1>C - SCAN Disk Scheduling Algorithm</h1>
+      <h5 class="w3-padding-8">
+        <b>
+          C - SCAN Disk Scheduling Algorithm-
+        </b>
+        Circular-SCAN Algorithm is an improved version of the SCAN Algorithm.
+        Head starts from one end of the disk and move towards the other end servicing all the requests in between.
+        After reaching the other end, head reverses its direction.
+        It then returns to the starting end without servicing any request in between.
+        The same process repeats.
+        <p>
+          <b>
+            Advantages-
+          </b>
+        The waiting time for the cylinders just visited by the head is reduced as compared to the SCAN Algorithm.
+        It provides uniform waiting time.
+        It provides better response time.
+        </p>
+        <p>
+          <b>
+            Disadvantages-
+          </b> 
+        It causes more seek movements as compared to SCAN Algorithm.
+        It causes the head to move till the end of the disk even if there are no requests to be serviced.
+        </p>
+      </h5>
+    </div>
+  </div>
+
+  <div class="w3-row-padding  w3-padding-16 w3-light-grey w3-container">
+    <div class="w3-content">
+      <h1>LOOK Disk Scheduling Algorithm</h1>
+      <h5 class="w3-padding-8">
+        <b>
+        LOOK Disk Scheduling Algorithm-
+        </b>
+      LOOK Algorithm is an improved version of the SCAN Algorithm.
+      Head starts from the first request at one end of the disk and moves towards the last request at the other end servicing all the requests in between.
+      After reaching the last request at the other end, head reverses its direction.
+      It then returns to the first request at the starting end servicing all the requests in between.
+      The same process repeats.
+        <p>
+          <b>
+            NOTE-
+          </b>
+        The main difference between SCAN Algorithm and LOOK Algorithm is-
+
+        SCAN Algorithm scans all the cylinders of the disk starting from one end to the other end even if there are no requests at the ends.
+        LOOK Algorithm scans all the cylinders of the disk starting from the first request at one end to the last request at the other end.
+        </p>
+        <p>
+          <b>
+            Advantages-
+          </b> 
+        It does not causes the head to move till the ends of the disk when there are no requests to be serviced.
+        It provides better performance as compared to SCAN Algorithm.
+        It does not lead to starvation.
+        It provides low variance in response time and waiting time.
+        </p>
+        <p>
+          <b>
+            Disadvantages-
+          </b> 
+
+        There is an overhead of finding the end requests.
+        It causes long waiting time for the cylinders just visited by the head.
+        </p>      
+        </h5>
+    </div>
+  </div>
+
+
+  <div class="w3-row-padding  w3-padding-16 w3-container">
+    <div class="w3-content">
+      <h1>C - LOOK Disk Scheduling Algorithm</h1>
+      <h5 class="w3-padding-8">
+        <b>
+        C - LOOK Disk Scheduling Algorithm-
+        </b>
+        Circular-LOOK Algorithm is an improved version of the LOOK Algorithm.
+        Head starts from the first request at one end of the disk and moves towards the last request at the other end servicing all the requests in between.
+        After reaching the last request at the other end, head reverses its direction.
+        It then returns to the first request at the starting end without servicing any request in between.
+        The same process repeats.
+        <p>
+          <b>
+            Advantages-
+          </b>
+        It does not causes the head to move till the ends of the disk when there are no requests to be serviced.
+        It reduces the waiting time for the cylinders just visited by the head.
+        It provides better performance as compared to LOOK Algorithm.
+        It does not lead to starvation.
+        It provides low variance in response time and waiting time.
+        </p>
+        
+        <p>
+          <b>
+            Disadvantages-
+          </b>         
+        There is an overhead of finding the end requests.
+        </p>
+      </h5>
+    </div>
+  </div>
+  <script>
+  // Used to toggle the menu on small screens when clicking on the menu button
+  function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+  </script>
+
+</body>
+</html>

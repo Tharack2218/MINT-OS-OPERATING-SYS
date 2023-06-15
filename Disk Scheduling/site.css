@@ -1,0 +1,70 @@
+body {
+    padding-top: 60px;
+}
+
+.btn-group-control-panel .btn-group {
+    float: left;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 900px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 1200px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1500px;
+    }
+    .btn-group-control-panel .btn-group {
+        float: none;
+        width: 1%;
+    }
+}
+
+#controlPanel .panel-heading {
+    height: 40px;
+}
+
+#controlPanel .panel-body {
+    margin-left: 10px;
+    margin-right: 10px;
+    min-height: 776px;
+}
+
+#controlPanel .form-group .radio {
+    margin-top: 0px;
+    margin-left: 10px;
+}
+
+/* Algorithms select text wrapping and padding */
+.bootstrap-select .filter-option {
+    white-space: normal;
+} 
+
+/* Canvas and its panel's CSS */
+#animCanvas {
+    display: block; 
+    margin: 20px auto;
+}
+
+#animCanvasPanel .panel-heading {
+    height: 40px;
+}
+
+#animCanvasPanel .panel-body {
+    height: 776px;
+    overflow-y: scroll;
+}
+
+/* Slider CSS */
+#labelAnimProgress {
+    min-width: 125px;
+}

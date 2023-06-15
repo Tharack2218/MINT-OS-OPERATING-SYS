@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>Disk Scheduling</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+  body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+  .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+  .fa-anchor,.fa-coffee {font-size:200px}
+  </style>
+<body>
+    
+  <!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-dark-grey w3-large">
+      <a href="start_page.html" class="w3-bar-item w3-button w3-padding-large w3-hover-black" style="width:33%; font-size: 20px;">Home</a>
+      <a href="graphical-demonstration.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-black"style="width:33%;font-size: 20px;">Graphical Demonstration</a>
+      <a href="algos.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-black"style="width:33%;font-size: 20px;">Algorithms</a>
+    </div>    
+  </div>
+
+  <!-- Header -->
+  <header class="w3-container w3-blue w3-center" style="padding:100px 16px">
+    <h1 class="w3-margin w3-jumbo">Disk Scheduling</h1>
+  </header>
+
+  <!-- First Grid -->
+  <div class="w3-row-padding w3-padding-32 w3-container">
+    <div class="w3-content">
+      <div class="w3-twothird">
+        <h1>
+      <b>
+      About Magnetic Disks
+      </b>
+      </h1>
+        <h5 class="w3-padding-8">
+          <ul>
+        <li>
+        IBM introduced the first magnetic disk, the RAMAC, in 1955; it held 5 megabytes and rented for $3,200 per month. Magnetic disks are platters coated with iron oxide, like tape and drums. 
+        </li>
+        <li>
+        An arm with a tiny wire coil, the read/write (R/W) head, moves radially over the disk, which is divided into concentric tracks composed of small arcs, or sectors, of data.
+        </li>
+        <li>
+          Magnetized regions of the disk generate small currents in the coil as it passes, thereby allowing it to “read” a sector; similarly, a small current in the coil will induce a local magnetic change in the disk, thereby “writing” to a sector.
+        </li>
+        <li>
+        The disk rotates rapidly (up to 15,000 rotations per minute), and so the R/W head can rapidly reach any sector on the disk.
+        </li>
+
+      </ul>
+      </h5>
+
+        <p>Magnetic storage or magnetic recording is the storage of data on a magnetized medium. Magnetic storage uses different patterns of magnetisation in a magnetizable material to store data and is a form of non-volatile memory. The information is accessed using one or more read/write heads.</p>
+      </div>
+
+      <div class="w3-third w3-right">
+        <br><br>
+        <i><img src="images/hard-drive.jpg" alt="Trulli" width="500" height="400" style="padding: 10%;"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second Grid -->
+  <div class="w3-row-padding w3-light-grey w3-padding-32 w3-container">
+    <div class="w3-content">
+      <div class="w3-twothird">
+        <h1>
+      <b>
+      Need of disk scheduling
+      </b>
+      </h1>
+        <h5 class="w3-padding-8">
+      <ul>
+      <li>
+      One of the responsibilities of the operating system is to use the hardware
+          efficiently. For the disk drives, meeting this responsibility entails having fast access time and large disk bandwidth.   
+          </li>
+      <li>
+      For magnetic disks, the access time has
+          two major components.The seek time is the
+          time for the disk arm to move the heads to the cylinder containing the desired
+          sector.
+      </li>
+      <li>
+      The rotational latency is the additional time for the disk to rotate the
+          desired sector to the disk head. The disk bandwidth is the total number of bytes
+          transferred, divided by the total time between the first request for service and
+          the completion of the last transfer.
+      </li>
+      <li>
+      We can improve both the access time and
+          the bandwidth by managing the order in which disk I/O requests are serviced.
+      </li>
+      </ul>
+      </h5>
+        <p>Whenever a process needs I/O to or from the disk, it issues a system call to
+          the operating system. The request specifies several pieces of information:
+          <ul>
+            <li>
+              Whether this operation is input or output
+            </li>
+            <li>
+              What the disk address for the transfer is
+            </li>
+            <li>
+              What the memory address for the transfer is
+            </li>
+            <li>
+              What the number of sectors to be transferred is
+            </li>
+          </ul>
+        
+          If the desired disk drive and controller are available, the request can be
+          serviced immediately. If the drive or controller is busy, any new requests
+          for service will be placed in the queue of pending requests for that drive.
+          For a multiprogramming system with many processes, the disk queue may
+          often have several pending requests. Thus, when one request is completed, the
+          operating system chooses which pending request to service next. How does
+          the operating system make this choice? Any one of several disk-scheduling
+          algorithms can be used, and we discuss them next.</p>
+      </div>
+      <div class="w3-third w3-left">
+        <br><br>
+        <i><img src="images/disc-scheduling.png" width="500" height="300" style="padding: 10%;"></i>
+        <br>
+        <img src="images/algosChart.jpg" width="500" height="400" style="padding: 10%;">
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Used to toggle the menu on small screens when clicking on the menu button
+  function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+  </script>
+
+</body>
+</html>
