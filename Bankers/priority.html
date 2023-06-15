@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Priority-Based Scheduler</title>
+  <style>
+    body {
+      background-color: black;
+      color: #ffd700;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .processes {
+      margin-top: 40px;
+    }
+
+    .process {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .process .pid {
+      background-color: #ffd700;
+      color: black;
+      border-radius: 3px;
+      padding: 5px 10px;
+      margin-right: 10px;
+    }
+
+    .process .burst-time, .process .arrival-time, .process .priority {
+      background-color: black;
+      color: #ffd700;
+      padding: 5px 10px;
+      margin-right: 10px;
+    }
+
+    .output {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    table {
+      margin-top: 20px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ffd700;
+    }
+
+    th {
+      background-color: #ffd700;
+      color: black;
+    }
+
+    .gantt-chart {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .process-bar {
+      height: 40px;
+      background-color: #ffd700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+    .btn{
+        width:150px;
+        height:40px;
+        background-color: #ffd700;
+        color:black;
+        border-radius: 10px;
+        margin-left:10px;
+        font-size: 16px;
+    }
+    input{
+        width:150px;
+        height:30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Priority-Based</h1>
+
+    <label for="num-processes">Number of Processes:</label>
+    <input type="number" id="num-processes">
+    <button onclick="createTable()" class="btn">Create Table</button>
+
+    <div id="process-table"></div>
+
+    <div class="output">
+      <button onclick="runPriorityBased()" class="btn">Run Priority-Based</button>
+      <p id="result"></p>
+    </div>
+
+    <div class="gantt-chart" id="gantt-chart"></div>
+  </div>
+
+  <script>
+    function createTable() {
+      const numProcessesInput = document.getElementById('num-processes');
+      const numProcesses = parseInt(numProcessesInput.value);
+
+      if (isNaN(numProcesses) || numProcesses <= 0) {
+        alert('Please enter a valid number of processes.');
+        return;
+      }
+
+      let tableHtml = '<table>';
+      tableHtml += '<tr><th>PID</th><th>Arrival Time</th><th>Burst Time</th><th>Priority</th></tr>';
+
+      for (let i = 0; i < numProcesses; i++) {
+        tableHtml += `<tr><td>P${i + 1}</td><td><input type="number" class="arrival-time-input"></td><td><input type="number" class="burst-time-input"></td><td><input type="number" class="priority-input"></td></tr>`;
+      }
+
+      tableHtml += '</table>';
+
+      const processTableDiv = document.getElementById('process-table');
+      processTableDiv.innerHTML = tableHtml;
+    }
+
+    function runPriorityBased() {
+      const arrivalTimeInputs = document.getElementsByClassName('arrival-time-input');
+      const burstTimeInputs = document.getElementsByClassName('burst-time-input');
+      const priorityInputs = document.getElementsByClassName('priority-input');
+      const processes = [];
+
+      for (let i = 0; i < arrivalTimeInputs.length; i++) {
+        const arrivalTime = parseInt(arrivalTimeInputs[i].value);
+        const burstTime = parseInt(burstTimeInputs[i].value);
+        const priority = parseInt(priorityInputs[i].value);
+
+        if (isNaN(arrivalTime) || isNaN(burstTime) || isNaN(priority) || arrivalTime < 0 || burstTime <= 0) {
+          alert('Please enter valid arrival time, burst time, and priority for all processes.');
+          return;
+        }
+
+        processes.push({ pid: `P${i + 1}`, arrivalTime, burstTime, priority });
+      }
+
+      processes.sort((a, b) => a.arrivalTime - b.arrivalTime || b.priority - a.priority);
+
+      let currentTime = 0;
+      let completedProcesses = 0;
+      let totalWaitingTime = 0;
+      let totalTurnaroundTime = 0;
+      const ganttChartDiv = document.getElementById('gantt-chart');
+      let ganttChartHtml = 'Gantt Chart: ';
+
+      while (completedProcesses < processes.length) {
+        let highestPriorityIndex = -1;
+        let highestPriority = -Infinity;
+
+        for (let i = 0; i < processes.length; i++) {
+          const process = processes[i];
+
+          if (process.arrivalTime <= currentTime && process.priority > highestPriority && process.burstTime > 0) {
+            highestPriorityIndex = i;
+            highestPriority = process.priority;
+          }
+        }
+
+        if (highestPriorityIndex === -1) {
+          currentTime++;
+          continue;
+        }
+
+        const highestPriorityProcess = processes[highestPriorityIndex];
+        highestPriorityProcess.burstTime--;
+        currentTime++;
+        ganttChartHtml += `<div class="process-bar" style="width: 40px; color: black;">${highestPriorityProcess.pid}</div>`;
+
+        if (highestPriorityProcess.burstTime === 0) {
+          completedProcesses++;
+          highestPriorityProcess.completionTime = currentTime;
+          highestPriorityProcess.turnaroundTime = highestPriorityProcess.completionTime - highestPriorityProcess.arrivalTime;
+          highestPriorityProcess.waitingTime = highestPriorityProcess.turnaroundTime - highestPriorityProcess.burstTime;
+          totalWaitingTime += highestPriorityProcess.waitingTime;
+          totalTurnaroundTime += highestPriorityProcess.turnaroundTime;
+        }
+      }
+
+      const averageWaitingTime = totalWaitingTime / processes.length;
+      const averageTurnaroundTime = totalTurnaroundTime / processes.length;
+
+      const resultElement = document.getElementById('result');
+      resultElement.innerHTML = `Average Waiting Time: ${averageWaitingTime.toFixed(2)}<br>Average Turnaround Time: ${averageTurnaroundTime.toFixed(2)}`;
+
+      ganttChartDiv.innerHTML = ganttChartHtml;
+    }
+  </script>
+</body>
+</html>

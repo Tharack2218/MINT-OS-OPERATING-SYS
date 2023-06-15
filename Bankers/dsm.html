@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DSM</title>
+  <style>
+    body {
+      background-color: black;
+      font-family: Arial, sans-serif;
+      color: #ffd700;
+    }
+    nav {
+	background-color: #000000; /* Black */
+	padding: 20px;
+  }
+    nav h1{
+        margin: 0;
+	text-align: center;
+	font-size: 50px;
+    }
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 30px;
+      margin-left: 100px;
+    }
+
+    .node {
+      margin: 10px;
+    }
+
+    .memory {
+      display: inline-block;
+      background-color: #ffd700;
+      color: black;
+      padding: 5px 10px;
+      margin-left:-50px;
+    }
+    .btn{
+      width:300px;
+      height:100px;
+      color:#000000;
+      background-color: #ffd700;
+      border-radius: 10px;
+      margin: 10px;
+    }
+    .container .node h2{
+      margin-left:100px;
+    }
+  </style>
+</head>
+<body>
+    <nav>
+        <h1>DISTRIBUTED SHARED MEMORY</h1>
+    </nav>
+  <div class="container">
+    <div class="node">
+      <h2>Node 1</h2>
+      <button onclick="readMemory(1)" class="btn">Read Memory</button>
+      <button onclick="writeMemory(1)" class="btn">Write Memory</button>
+    </div>
+
+    <div class="node">
+      <h2>Node 2</h2>
+      <button onclick="readMemory(2)" class="btn">Read Memory</button>
+      <button onclick="writeMemory(2)" class="btn">Write Memory</button>
+    </div>
+
+    <div class="node">
+      <h2>Node 3</h2>
+      <button onclick="readMemory(3)" class="btn">Read Memory</button>
+      <button onclick="writeMemory(3)" class="btn">Write Memory</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="memory"></div>
+  </div>
+
+  <script>
+    let sharedMemory = 0;
+    // Read memory function
+    function readMemory(node) {
+      const memoryContainer = document.querySelector('.memory');
+      memoryContainer.innerText = `Value at Node ${node}: ${sharedMemory}`;
+    }
+    // Write memory function
+    function writeMemory(node) {
+    //   sharedMemory = `New Value from Node ${node}`;
+    const memoryContainer = document.querySelector('.memory');
+        if(node==1){
+            sharedMemory = `Last Value from Node ${node} was 10`;
+            memoryContainer.innerText = `Value written by Node ${node} is 10`;
+        }
+        else if(node==2){
+            sharedMemory = `Last Value from Node ${node} was 20`;
+            memoryContainer.innerText = `Value written by Node ${node} is 20`;
+        }
+        else{
+            sharedMemory = `Last Value from Node ${node} was 30`;
+            memoryContainer.innerText = `Value written by Node ${node} is 30`;
+        }
+    //   const memoryContainer = document.querySelector('.memory');
+    //   memoryContainer.innerText = `Value written by Node ${node}`;
+    }
+  </script>
+</body>
+</html>

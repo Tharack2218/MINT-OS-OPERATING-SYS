@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Banker's Algorithm</title>
+	<link rel="stylesheet" href="bankers.css">
+	
+</head>
+<body>
+	
+	<nav>
+		<h1>BANKERS's ALGORITHM</h1>
+	</nav>
+	<h3>Enter the number of processes and resources:</h3>
+	<form>
+		<label for="numProcesses">Number of processes:</label> &emsp;
+		<input type="number" id="numProcesses" name="numProcesses">&emsp;
+		<label for="numResources">Number of resources:</label>&emsp;
+		<input type="number" id="numResources" name="numResources">&emsp;
+		<button type="button" class="btn" onclick="createTable()">Create Table</button>
+	</form>
+	<div id="table"></div>
+	<button type="button" class="btn-cal" onclick="calculate()">Calculate</button>
+	<h3 id="result"></h3>
+	<script src="bankers.js"></script>
+</body>
+</html>

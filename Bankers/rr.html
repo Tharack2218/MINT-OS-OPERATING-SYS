@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Round Robin Scheduler</title>
+  <style>
+    body {
+      background-color: black;
+      color: #ffd700;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      /* max-width: 600px; */
+      /* margin: 0 auto; */
+      margin-left: 220px;
+      padding: 20px;
+    }
+
+    h1 {
+      /* text-align: center; */
+      margin-left: 300px;
+    }
+
+    .processes {
+      margin-top: 40px;
+    }
+
+    .process {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .process .pid {
+      background-color: #ffd700;
+      color: black;
+      border-radius: 3px;
+      padding: 5px 10px;
+      margin-right: 10px;
+    }
+
+    .process .burst-time, .process .arrival-time {
+      background-color: black;
+      color: #ffd700;
+      padding: 5px 10px;
+      margin-right: 10px;
+    }
+
+    .output {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    table {
+      margin-top: 20px;
+      margin-left: 100px;
+      width: 60%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ffd700;
+    }
+
+    th {
+      background-color: #ffd700;
+      color: black;
+    }
+
+    .gantt-chart {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 200px;
+    }
+
+    .process-bar {
+      height: 40px;
+      background-color: #ffd700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+    }
+    .btn{
+        width:150px;
+        height:40px;
+        background-color: #ffd700;
+        color:black;
+        border-radius: 10px;
+        margin-left:10px;
+        font-size: 16px;
+    }
+    .btn-1{
+        width:150px;
+        height:40px;
+        background-color: #ffd700;
+        color:black;
+        border-radius: 10px;
+        margin-left:-230px;
+        font-size: 16px;
+    }
+    input{
+        width:150px;
+        height:30px;
+    }
+    #result{
+        margin-right: 220px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ROUND ROBIN</h1>
+
+    <label for="num-processes">Number of Processes:</label>
+    <input type="number" id="num-processes">
+    <label for="time-quantum">Time Quantum:</label>
+    <input type="number" id="time-quantum">
+    <button onclick="createTable()" class="btn">Create Table</button>
+
+    <div id="process-table"></div>
+
+    <div class="output">
+      <button onclick="runRoundRobin()"  class="btn-1">Run Round Robin</button>
+      <p id="result"></p>
+    </div>
+
+    <div class="gantt-chart" id="gantt-chart"></div>
+  </div>
+
+  <script>
+    function createTable() {
+      const numProcessesInput = document.getElementById('num-processes');
+      const numProcesses = parseInt(numProcessesInput.value);
+
+      if (isNaN(numProcesses) || numProcesses <= 0) {
+        alert('Please enter a valid number of processes.');
+        return;
+      }
+
+      let tableHtml = '<table>';
+      tableHtml += '<tr><th>PID</th><th>Arrival Time</th><th>Burst Time</th></tr>';
+
+      for (let i = 0; i < numProcesses; i++) {
+        tableHtml += `<tr><td>P${i + 1}</td><td><input type="number" class="arrival-time-input"></td><td><input type="number" class="burst-time-input"></td></tr>`;
+      }
+
+      tableHtml += '</table>';
+
+      const processTableDiv = document.getElementById('process-table');
+      processTableDiv.innerHTML = tableHtml;
+    }
+
+    function runRoundRobin() {
+      const arrivalTimeInputs = document.getElementsByClassName('arrival-time-input');
+      const burstTimeInputs = document.getElementsByClassName('burst-time-input');
+      const arrivalTimes = [];
+      const burstTimes = [];
+
+      for (let i = 0; i < arrivalTimeInputs.length; i++) {
+        const arrivalTime = parseInt(arrivalTimeInputs[i].value);
+        const burstTime = parseInt(burstTimeInputs[i].value);
+
+        if (isNaN(arrivalTime) || isNaN(burstTime) || arrivalTime < 0 || burstTime <= 0) {
+          alert('Please enter valid arrival time and burst time for all processes.');
+          return;
+        }
+
+        arrivalTimes.push(arrivalTime);
+        burstTimes.push(burstTime);
+      }
+
+      const timeQuantumInput = document.getElementById('time-quantum');
+      const timeQuantum = parseInt(timeQuantumInput.value);
+
+      if (isNaN(timeQuantum) || timeQuantum <= 0) {
+        alert('Please enter a valid time quantum.');
+        return;
+      }
+
+      const processes = [];
+      for (let i = 0; i < arrivalTimes.length; i++) {
+        processes.push({ pid: `P${i + 1}`, arrivalTime: arrivalTimes[i], burstTime: burstTimes[i] });
+      }
+
+      let currentTime = 0;
+      let completedProcesses = 0;
+      let totalWaitingTime = 0;
+      let totalTurnaroundTime = 0;
+      const ganttChartDiv = document.getElementById('gantt-chart');
+      let ganttChartHtml = 'Gantt <br> Chart: ';
+
+      while (completedProcesses < processes.length) {
+        let allProcessesComplete = true;
+
+        for (let i = 0; i < processes.length; i++) {
+          const process = processes[i];
+
+          if (process.burstTime > 0) {
+            allProcessesComplete = false;
+
+            const executionTime = Math.min(process.burstTime, timeQuantum);
+            process.burstTime -= executionTime;
+            currentTime += executionTime;
+            ganttChartHtml += `<div class="process-bar" style="width: ${executionTime * 100 / Math.max(...burstTimes)}px;color:black;">${process.pid}</div>`;
+
+            if (process.burstTime === 0) {
+              completedProcesses++;
+              const turnaroundTime = currentTime - process.arrivalTime;
+              const waitingTime = turnaroundTime - burstTimes[i];
+              totalWaitingTime += waitingTime;
+              totalTurnaroundTime += turnaroundTime;
+            }
+          }
+        }
+
+        if (allProcessesComplete) {
+          break;
+        }
+      }
+
+      const averageWaitingTime = totalWaitingTime / processes.length;
+      const averageTurnaroundTime = totalTurnaroundTime / processes.length;
+
+      const resultElement = document.getElementById('result');
+      resultElement.innerHTML = `Average Waiting Time: ${averageWaitingTime.toFixed(2)}<br>Average Turnaround Time: ${averageTurnaroundTime.toFixed(2)}`;
+
+      ganttChartDiv.innerHTML = ganttChartHtml;
+    }
+  </script>
+</body>
+</html>
